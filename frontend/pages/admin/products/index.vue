@@ -15,8 +15,17 @@ export default {
     }
   },
   async fetch() {
-    const response = await this.$axios.get('/api/admin/products')
-    this.products = response.data
+    console.log('Fetching products...')
+    try {
+      const response = await this.$axios.get('/admin/products')
+      this.products = response.data
+      console.log('Products fetched:', this.products)
+    } catch (error) {
+      console.error('Error fetching products:', error)
+    }
+  },
+  mounted() {
+    console.log('Component mounted - Products data:', this.products)
   }
 }
 </script>
