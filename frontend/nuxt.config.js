@@ -2,6 +2,10 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+  server: {
+    host: '0.0.0.0', // прослушивать на всех сетевых интерфейсах
+    port: 3000 // порт
+  },
   head: {
     titleTemplate: '%s - lx_store',
     title: 'lx_store',
