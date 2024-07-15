@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>Login</h1>
-    <form @submit.prevent="login">
+    <h1>Add User</h1>
+    <form @submit.prevent="addUser">
       <div>
         <label for="username">Username</label>
         <input type="text" v-model="username" />
@@ -10,7 +10,7 @@
         <label for="password">Password</label>
         <input type="password" v-model="password" />
       </div>
-      <button type="submit">Login</button>
+      <button type="submit">Add User</button>
     </form>
   </div>
 </template>
@@ -24,15 +24,15 @@ export default {
     }
   },
   methods: {
-    async login() {
+    async addUser() {
       try {
-        await this.$auth.loginWith('local', {
-          data: {
-            username: this.username,
-            password: this.password
-          }
+        await this.$axios.post('/auth/add-user', {
+          username: this.username,
+          password: this.password
         });
-        await this.$router.push('/admin');
+        this.username = '';
+        this.password = '';
+        alert('User added successfully');
       } catch (error) {
         console.error('An error occurred:', error);
       }

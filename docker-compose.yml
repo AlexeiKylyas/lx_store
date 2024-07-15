@@ -6,10 +6,29 @@ services:
       - "3002:3000"
     environment:
       NODE_ENV: production
+    networks:
+      - app-network
+
   frontend:
     build: ./frontend
     ports:
       - "3003:3000"
+    networks:
+      - app-network
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Sobaka282001
+      MYSQL_DATABASE: lx_store
+      MYSQL_USER: user
+      MYSQL_PASSWORD: zxcvbn123
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
   nginx:
     image: nginx:alpine
     ports:
@@ -19,3 +38,9 @@ services:
     depends_on:
       - frontend
       - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
