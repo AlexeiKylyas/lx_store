@@ -2,45 +2,33 @@ version: '3'
 services:
   backend:
     build: ./backend
+    command: npx nodemon --legacy-watch index.js
+    volumes:
+      - ./backend:/usr/src/app
     ports:
       - "3002:3000"
     environment:
-      NODE_ENV: production
-    networks:
-      - app-network
-
+      NODE_ENV: development
   frontend:
     build: ./frontend
+    command: npm run dev
+    volumes:
+      - ./frontend:/usr/src/app
     ports:
       - "3003:3000"
-    networks:
-      - app-network
-
   db:
     image: mysql:5.7
-    restart: always
+    volumes:
+      - ./db_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: Sobaka282001
       MYSQL_DATABASE: lx_store
-      MYSQL_USER: user
-      MYSQL_PASSWORD: zxcvbn123
-    ports:
-      - "3306:3306"
-    networks:
-      - app-network
-
   nginx:
-    image: nginx:alpine
+    image: nginx:latest
     ports:
       - "8081:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./frontend:/usr/share/nginx/html
     depends_on:
       - frontend
-      - backend
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge

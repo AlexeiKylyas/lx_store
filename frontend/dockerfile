@@ -1,11 +1,16 @@
 FROM node:18
 
+# Встановлюємо робочий каталог
 WORKDIR /usr/src/app
 
+# Копіюємо package.json та package-lock.json
 COPY package*.json ./
+
+# Встановлюємо залежності
 RUN npm install
 
+# Копіюємо решту файлів
 COPY . .
 
-EXPOSE 3000
+# Вказуємо команду для запуску Nuxt.js у режимі розробки
 CMD ["npm", "run", "dev"]

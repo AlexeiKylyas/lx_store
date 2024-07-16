@@ -3,8 +3,8 @@
     <h1>Login</h1>
     <form @submit.prevent="login">
       <div>
-        <label for="username">Username</label>
-        <input type="text" v-model="username" />
+        <label for="username">Email</label>
+        <input type="text" v-model="email" />
       </div>
       <div>
         <label for="password">Password</label>
@@ -19,22 +19,23 @@
 export default {
   data() {
     return {
-      username: '',
+      email: '',
       password: ''
     }
   },
   methods: {
     async login() {
       try {
-        await this.$auth.loginWith('local', {
-          data: {
-            username: this.username,
-            password: this.password
-          }
+        const response = await this.$axios.post('/api/admin/login', {
+          email: this.email,
+          password: this.password
         });
-        await this.$router.push('/admin');
+        // eslint-disable-next-line no-unused-vars
+        const token = response.data.token;
+        console.log('token =>',token);
       } catch (error) {
         console.error('An error occurred:', error);
+        alert('Login failed. Please check your credentials and try again.');
       }
     }
   }
