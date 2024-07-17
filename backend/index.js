@@ -5,8 +5,8 @@ const port = 3000;
 const adminRoutes = require('./adminRoutes');
 const authRoutes = require('./authRoutes');
 
-app.use('/api/admin', adminRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/admin', adminRoutes);
+app.use('/auth', authRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');

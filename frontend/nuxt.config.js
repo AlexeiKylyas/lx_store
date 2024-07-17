@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   server: {
-    host: '0.0.0.0', // прослушивать на всех сетевых интерфейсах
+    host: '0.0.0.0',
     port: 3000 // порт
   },
   head: {
@@ -67,7 +67,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://nginx/api',
+    baseURL: 'http://localhost:8081/api',
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

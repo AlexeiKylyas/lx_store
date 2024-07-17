@@ -4,11 +4,11 @@
     <form @submit.prevent="login">
       <div>
         <label for="username">Email</label>
-        <input type="text" v-model="email" />
+        <input v-model="email" type="text" />
       </div>
       <div>
         <label for="password">Password</label>
-        <input type="password" v-model="password" />
+        <input v-model="password" type="password"  />
       </div>
       <button type="submit">Login</button>
     </form>
@@ -26,10 +26,12 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await this.$axios.post('/api/admin/login', {
+        console.log('3333333333333333333')
+        const response = await this.$axios.post('/auth/login', {
           email: this.email,
           password: this.password
         });
+        console.log('response =>',response)
         // eslint-disable-next-line no-unused-vars
         const token = response.data.token;
         console.log('token =>',token);
