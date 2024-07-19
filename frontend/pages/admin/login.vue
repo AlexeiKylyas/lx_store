@@ -3,12 +3,10 @@
     <h1>Login</h1>
     <form @submit.prevent="login">
       <div>
-        <label for="username">Email</label>
-        <input v-model="email" type="text" />
+        <v-text-field id="email" v-model="email" label="email"  type="text" />
       </div>
       <div>
-        <label for="password">Password</label>
-        <input v-model="password" type="password"  />
+        <v-text-field id="password" v-model="password" label="password" type="password"  />
       </div>
       <button type="submit">Login</button>
     </form>
@@ -26,7 +24,8 @@ export default {
   methods: {
     async login() {
       try {
-        console.log('3333333333333333333')
+        console.log('email =>',this.email);
+        console.log('password =>',this.password);
         const response = await this.$axios.post('/auth/login', {
           email: this.email,
           password: this.password

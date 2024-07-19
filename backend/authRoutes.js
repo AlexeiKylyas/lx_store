@@ -3,27 +3,31 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
-const Admin = require('./models/Admin');
+const sequelize = require('./db');
+const initModels = require('./models/init-models');
+const models = initModels(sequelize);
+const Admin = models.admin
 
 // Вход
 router.post(
     '/login',
     [
-        check('username', 'Please include a valid username').not().isEmpty(),
+        check('email', 'Please include a valid email').not().isEmpty(),
         check('password', 'Password is required').exists()
     ],
     async (req, res) => {
-        console.log('555555555555555555555555555555555555555555555555');
+        console.log('req.body =>',req.body);
         const errors = validationResult(req);
+        console.log('errors =>',errors)
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { username, password } = req.body;
-
+        const { email, password } = req.body;
         try {
             // Поиск пользователя
-            let user = await Admin.findOne({ where: { username } });
+            let user = await Admin.findOne({ where: { email } });
+            console.log('user =>',user)
             if (!user) {
                 return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] });
             }
@@ -37,7 +41,7 @@ router.post(
             // Генерация токена
             const payload = {
                 user: {
-                    username: user.username
+                    email: user.email
                 }
             };
 
@@ -61,7 +65,7 @@ router.post(
 router.post(
     '/add-user',
     [
-        check('username', 'Please include a valid username').not().isEmpty(),
+        check('email', 'Please include a valid email').not().isEmpty(),
         check('password', 'Please enter a password with 6 or more characters').isLength({ min: 6 })
     ],
     async (req, res) => {
@@ -70,11 +74,11 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { username, password } = req.body;
+        const { email, password } = req.body;
 
         try {
             // Проверка на существование пользователя
-            let user = await Admin.findOne({ where: { username } });
+            let user = await Admin.findOne({ where: { email } });
             if (user) {
                 return res.status(400).json({ errors: [{ msg: 'User already exists' }] });
             }
@@ -84,7 +88,7 @@ router.post(
             const hashedPassword = await bcrypt.hash(password, salt);
 
             user = await Admin.create({
-                username,
+                email,
                 password: hashedPassword
             });
 
