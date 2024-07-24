@@ -9,19 +9,13 @@
 
 <script>
 export default {
+  middleware: 'auth', // Middleware для перевірки авторизації
   data() {
     return {
-      products: []
-    }
-  },
-  async fetch() {
-    console.log('Fetching products...')
-    try {
-      const response = await this.$axios.get('/admin/products')
-      this.products = response.data
-      console.log('Products fetched:', this.products)
-    } catch (error) {
-      console.error('Error fetching products:', error)
+      products: [
+        { id: 1, name: 'Product 1' },
+        { id: 2, name: 'Product 2' }
+      ]
     }
   },
   mounted() {

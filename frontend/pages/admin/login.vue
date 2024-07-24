@@ -24,18 +24,16 @@ export default {
   methods: {
     async login() {
       try {
-        console.log('email =>',this.email);
-        console.log('password =>',this.password);
         const response = await this.$axios.post('/auth/login', {
           email: this.email,
           password: this.password
         });
-        console.log('response =>',response)
-        // eslint-disable-next-line no-unused-vars
         const token = response.data.token;
-        console.log('token =>',token);
+        console.log('token =>',token)
+        await this.$store.dispatch('authorization/login', token);
+        const redirect = this.$route.query.redirect || '/admin/products/';
+        await this.$router.push(redirect);
       } catch (error) {
-        console.error('An error occurred:', error);
         alert('Login failed. Please check your credentials and try again.');
       }
     }

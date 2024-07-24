@@ -27,14 +27,20 @@ router.post(
         try {
             // Поиск пользователя
             let user = await Admin.findOne({ where: { email } });
-            console.log('user =>',user)
+
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+
+            console.log('bcrypt pass =>', hashedPassword)
             if (!user) {
+                console.log('4444444444444444444444444444444444444')
                 return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] });
             }
 
             const isMatch = await bcrypt.compare(password, user.password);
 
             if (!isMatch) {
+                console.log('12311111112312312312321')
                 return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] });
             }
 
