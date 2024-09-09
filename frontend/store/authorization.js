@@ -18,5 +18,12 @@ export const actions = {
   logout({ commit }) {
     commit('SET_TOKEN', '');
     localStorage.removeItem('authToken');
+  },
+  nuxtServerInit({ commit }) {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      commit('SET_TOKEN', token);
+    }
   }
 };
+

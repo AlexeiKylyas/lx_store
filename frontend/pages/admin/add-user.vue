@@ -17,6 +17,7 @@
 
 <script>
 export default {
+  middleware: 'auth', // Додаємо middleware
   data() {
     return {
       username: '',

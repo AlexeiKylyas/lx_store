@@ -29,12 +29,18 @@ export default {
           password: this.password
         });
         const token = response.data.token;
-        console.log('token =>',token)
+        console.log('token =>', token);
         await this.$store.dispatch('authorization/login', token);
-        const redirect = this.$route.query.redirect || '/admin/products/';
+
+        // Виправлення редиректу
+        const redirect = this.$route.query.redirect || '/admin/add-user';
+        console.log('redirect =>', redirect);
+
+        console.log('store.state.authorization =>', this.$store.state.authorization)
+
         await this.$router.push(redirect);
       } catch (error) {
-        alert('Login failed. Please check your credentials and try again.');
+        alert(`Login failed. Please check your credentials and try again. ${error}`,);
       }
     }
   }

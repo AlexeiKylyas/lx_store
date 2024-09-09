@@ -53,8 +53,8 @@ router.post(
 
             jwt.sign(
                 payload,
-                'yourSecretKey', // замените на более надежный секретный ключ
-                { expiresIn: '1h' },
+                'Sobaka282001', // замените на более надежный секретный ключ
+                { expiresIn: '1d' },
                 (err, token) => {
                     if (err) throw err;
                     res.json({ token });
